@@ -5,6 +5,7 @@ import { addItem } from "./CartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTotalQuantity } from "./CartSlice";
 
+
 function ProductList() {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
@@ -296,6 +297,12 @@ function ProductList() {
     }));
   };
 
+  const cart = useSelector((state) => state.cart.items);
+
+  const isItemInCart = (itemName) => {
+    return cart.some(item => item.name === itemName);
+  };
+
   return (
     <div>
       <div className="navbar" style={styleObj}>
@@ -382,8 +389,9 @@ function ProductList() {
                     <button
                       className="product-button"
                       onClick={() => handleAddToCart(plant)}
+                      disabled={isItemInCart(plant.name)}
                     >
-                      Add to cart
+                      {isItemInCart(plant.name) ? 'in Cart' : 'Add to cart'}
                     </button>
                   </div>
                 ))}
